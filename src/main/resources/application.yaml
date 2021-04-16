@@ -1,0 +1,33 @@
+server:
+ port: 8083
+spring:
+ profiles:
+  active: dev
+
+person:
+ name: zhangsan
+---
+server:
+ port: 8082
+
+spring:
+ thymeleaf:
+  cache: false
+ messages:
+  basename: i18n.login
+ mvc:
+  format:
+   date: yyyy-MM-dd
+ datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+  username: root
+  password: root
+  type: com.alibaba.druid.pool.DruidDataSource
+  dbcp2:
+   initial-size: 10
+   min-idle: 5
+
+mybatis:
+ type-aliases-package: com.lixia.pojo
+ mapper-locations: classpath:mybatis/mapper/*.xml

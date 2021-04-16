@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.lixia.mapper.UserMapper">
+    <select id="queryUserList" resultType="user">
+        select * from user
+    </select>
+    <select id="queryUserById" parameterType="int" resultType="user">
+        select * from user where Id=#{id}
+    </select>
+    <select id="queryUserByName" parameterType="String" resultType="user">
+        select * from user where username=#{name}
+    </select>
+    <insert id="addUser" parameterType="user">
+        insert into user(username,password) values(#{userName},#{passWord})
+    </insert>
+    <update id="updateUser" parameterType="user">
+        update user set username=#{userName},password=#{passWord} where Id = #{id}
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete from user where Id=#{id}
+    </delete>
+</mapper>

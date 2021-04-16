@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{/commons/commons::headmeta}"></div>
+    
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <input type="hidden" name="Id" th:value="${employee.getId()}">
+                        <label for="L_email" class="layui-form-label">
+                            <span class="x-red">*</span>邮箱</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_email" name="email" required="" lay-verify="email" autocomplete="off" class="layui-input" th:value="${employee.getEmail()}"></div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>将会成为您唯一的登入名</div></div>
+                    <div class="layui-form-item">
+                        <label for="L_username" class="layui-form-label">
+                            <span class="x-red">*</span>姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_username" name="lastName" required="" lay-verify="lastName" autocomplete="off" class="layui-input" th:value="${employee.getLastName()}"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_lastName" class="layui-form-label">
+                            <span class="x-red">*</span>所属部门</label>
+                        <div class="layui-input-inline">
+                            <select id="L_lastName" name="department.Id" class="valid">
+                                <option th:each="department:${departments}" th:value="${department.getId()}" th:text="${department.getDepartmentName()}" th:selected="${department.getId()==employee.getDepartment().getId()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-block">
+                            <input name="gender" value="1" type="radio" title="男" th:checked="${employee.getGender()==1}">
+                            <input name="gender" value="0" type="radio" title="女" th:checked="${employee.getGender()==0}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_birth" class="layui-form-label">
+                            <span class="x-red">*</span>出生日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_birth" name="birth" class="layui-input" th:value="${#dates.format(employee.getBirth(),'yyyy-MM-dd')}"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" lay-filter="add" lay-submit="">修改</button></div>
+                </form>
+            </div>
+        </div>
+        <script>layui.use(['form', 'layer'],
+            function() {
+                $ = layui.jquery;
+                var form = layui.form,
+                layer = layui.layer;
+
+                //自定义验证规则
+                form.verify({
+                    lastName: function(value) {
+                        if (value.length < 2) {
+                            return '姓名少得2个字符啊';
+                        }
+                    }
+                });
+
+                //监听提交
+                form.on('submit(add)',
+                function(data) {
+                    console.log(data);
+                    //发异步，把数据提交给php
+                    $.ajax({
+                        type: 'post',
+                        url: "/emps/update",
+                        data: data.field,
+                        success: function (res) {
+                            console.log(res);
+                        }
+                    });
+                    layer.alert("修改成功", {
+                        icon: 6
+                    },
+                    function() {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        //对父窗口刷新
+                        xadmin.father_reload();
+                    });
+                    return false;
+                });
+
+            });</script>
+        <script>var _hmt = _hmt || []; (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();</script>
+    </body>
+
+</html>

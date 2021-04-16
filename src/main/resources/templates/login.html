@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link th:href="@{/css/style.css}" rel='stylesheet' type='text/css'>
+</head>
+<body>
+<h1 th:text="#{login.tip}"></h1>
+<div class="w3ls-login box">
+    <img th:src="@{/images/logo.png}" alt="logo_img" />
+    <!-- form starts here -->
+    <form th:action="@{/user/login}" method="post">
+        <div class="agile-field-txt">
+            <input type="username" name="username" th:placeholder="#{login.username}" required="" />
+            <p style="color:red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+        </div>
+        <div class="agile-field-txt">
+            <input type="password" name="password" th:placeholder="#{login.password}" required="" id="myInput" />
+            <div class="agile_label">
+                <input id="check3" name="remember" type="checkbox" value="show password">
+                <label class="check" for="check3" th:text="#{login.remember}"></label>
+            </div>
+        </div>
+        <div class="w3ls-bot">
+            <input type="submit" th:value="#{login.btn}">
+        </div>
+        <a th:href="@{/login.html(l='zh_CN')}">中文</a><a th:href="@{/login.html(l='en_US')}">English</a>
+    </form>
+</div>
+</body>
+</html>
