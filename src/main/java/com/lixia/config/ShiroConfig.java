@@ -1,5 +1,6 @@
 package com.lixia.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +14,7 @@ import java.util.Map;
 public class ShiroConfig {
     //shirofilterfactorybean 这是第一步
     @Bean
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         //设置安全管理器
         bean.setSecurityManager(securityManager);
@@ -26,26 +27,43 @@ public class ShiroConfig {
          * role 拥有这个角色权限才能访问
          */
         // 拦截
-        Map<String,String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/show/add","authc");
-        filterMap.put("/show/update","authc");
+        Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/show/add", "authc");
+        filterMap.put("/show/update", "authc");
+        //授权，未授权进入未授权页面
+        filterMap.put("/show/add", "perms[user:add]");
+        filterMap.put("/show/update", "perms[user:update]");
         bean.setFilterChainDefinitionMap(filterMap);
 
         //设置登录的请求
         bean.setLoginUrl("/show/tologin");
+        bean.setUnauthorizedUrl("/noauth");
         return bean;
     }
+
     //defaultwebsecuritymanager 这是第二步
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm){
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //关联userRealm
         securityManager.setRealm(userRealm);
         return securityManager;
     }
+
     //创建 realm对象 需要自定义 这是第一步
     @Bean(name = "userRealm")
-    public UserRealm userRealm(){
+    public UserRealm userRealm() {
         return new UserRealm();
     }
+
+    /**
+     * shiro方言  支持shiro标签
+     *
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
+
 }
