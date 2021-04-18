@@ -1,33 +1,40 @@
 server:
- port: 8083
+  port: 8083
 spring:
- profiles:
-  active: dev
+  profiles:
+    active: dev
 
 person:
- name: zhangsan
+  name: zhangsan
 ---
 server:
- port: 8082
+  port: 8082
 
 spring:
- thymeleaf:
-  cache: false
- messages:
-  basename: i18n.login
- mvc:
-  format:
-   date: yyyy-MM-dd
- datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
-  username: root
-  password: root
-  type: com.alibaba.druid.pool.DruidDataSource
-  dbcp2:
-   initial-size: 10
-   min-idle: 5
+  thymeleaf:
+    cache: false
+  messages:
+    basename: i18n.login
+  mvc:
+    format:
+      date: yyyy-MM-dd
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    dbcp2:
+      initial-size: 10
+      min-idle: 5
+  mail:
+    username: 1518545702@qq.com
+    password: bbkydnftnpdjbadi
+    host: smtp.qq.com
+    default-encoding: utf-8
+
 
 mybatis:
- type-aliases-package: com.lixia.pojo
- mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.lixia.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
