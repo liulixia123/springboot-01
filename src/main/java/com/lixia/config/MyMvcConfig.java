@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,6 +22,16 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/emps/edit.html").setViewName("/emps/toUpdate");
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 解决静态资源无法访问
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        // 解决 SWAGGER2 404报错
+        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
     // 自定义国际化组件
     @Bean
     public LocaleResolver localeResolver() {
@@ -31,8 +42,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/admin/**").excludePathPatterns(
-                "/login.html","tologin",
-                "/login", "/user/login","/user/logout", "/css/**", "/js/**", "/images/**", "/emps/add", "/emps/update", "/emps" +
-                        "/del", "/emps/delAll","/userList","/addUser","/updateUser/","/deleteUser/");
+                "/login.html", "tologin",
+                "/login", "/user/login", "/user/logout", "/css/**", "/js/**", "/images/**", "/emps/add", "/emps/update", "/emps" +
+                        "/del", "/emps/delAll", "/userList", "/addUser", "/updateUser/", "/deleteUser/");
     }
 }
