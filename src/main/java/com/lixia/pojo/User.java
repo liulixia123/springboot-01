@@ -4,13 +4,24 @@ public class User {
     private Integer Id;
     private String userName;
     private String passWord;
+    private String perms;
+
+    public String getPerms() {
+        return perms;
+    }
+
+    public void setPerms(String perms) {
+        this.perms = perms;
+    }
 
     public User(Integer id, String userName, String passWord) {
         Id = id;
         this.userName = userName;
         this.passWord = passWord;
     }
-    public User(){}
+
+    public User() {
+    }
 
     public User(String userName, String passWord) {
         this.userName = userName;
