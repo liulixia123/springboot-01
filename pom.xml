@@ -17,6 +17,27 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+          <!--javax.mail整合-->
+         <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-mail</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>io.springfox</groupId>
+             <artifactId>springfox-swagger2</artifactId>
+             <version>3.0.0</version>
+         </dependency>
+         <dependency>
+             <groupId>io.springfox</groupId>
+             <artifactId>springfox-swagger-ui</artifactId>
+             <version>2.9.1</version>
+         </dependency>
+        <!--整合shiro-thymeleaf-->
+         <dependency>
+             <groupId>com.github.theborakompanioni</groupId>
+             <artifactId>thymeleaf-extras-shiro</artifactId>
+             <version>2.0.0</version>
+         </dependency>
         <!--整合shiro-spring-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
