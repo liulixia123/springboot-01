@@ -6,34 +6,40 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ShiroController {
 
     @RequestMapping(value = "/show/index")
-    public String index(Model model){
-        model.addAttribute("msg","hello world!");
+    public String index(Model model) {
+        model.addAttribute("msg", "hello world!");
         return "test/index";
     }
+
     @RequestMapping(value = "/show/add")
-    public String add(Model model){
-        model.addAttribute("msg","添加");
+    public String add(Model model) {
+        model.addAttribute("msg", "添加");
         return "test/add";
     }
+
     @RequestMapping(value = "/show/update")
-    public String update(Model model){
-        model.addAttribute("msg","修改");
+    public String update(Model model) {
+        model.addAttribute("msg", "修改");
         return "test/update";
     }
+
     @RequestMapping(value = "/show/tologin")
-    public String tologin(){
+    public String tologin() {
         return "test/login";
     }
+
     @RequestMapping(value = "/show/login")
-    public String login(String username,String password,Model model){
+    public String login(String username, String password, Model model) {
         //获取当前用户对象
         Subject currentUser = SecurityUtils.getSubject();
 
@@ -41,18 +47,25 @@ public class ShiroController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             currentUser.login(token);//执行了登录操作
+
             return "test/index";
         } catch (UnknownAccountException uae) {
-            model.addAttribute("msg","用户名不正确");
+            model.addAttribute("msg", "用户名不正确");
             return "test/login";
         } catch (IncorrectCredentialsException ice) {
-            model.addAttribute("msg","密码不正确");
+            model.addAttribute("msg", "密码不正确");
             return "test/login";
         } catch (LockedAccountException lae) {
-            model.addAttribute("msg","账号被锁定");
+            model.addAttribute("msg", "账号被锁定");
             return "test/login";
         }
 
+    }
+
+    @RequestMapping("/noauth")
+    @ResponseBody
+    public String unauthoried() {
+        return "未经授权不能访问页面";
     }
 
 }
